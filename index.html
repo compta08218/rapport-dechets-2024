@@ -59,7 +59,7 @@
                     <canvas id="dibChart"></canvas>
                 </div>
                  <div>
-                    <h3 class="text-lg font-semibold mb-4 text-center">Papiers & Déchets Électriques (D3E)</h3>
+                    <h3 class="text-lg font-semibold mb-4 text-center">Papiers & Déchets Spécifiques</h3>
                     <canvas id="autresChart"></canvas>
                 </div>
                  <div>
@@ -80,14 +80,20 @@
                         <p class="text-gray-700">Notre stratégie a consisté à mettre en place progressivement des filières de tri dédiées : **Papier (juillet 2022)**, puis **Carton/Plastique (fin 2023)**. La hausse de ces flux en 2024 n'est pas une augmentation de la production de déchets, mais le **succès du détournement de ces matières** qui finissaient auparavant en DIB. C'est une réussite majeure de notre démarche RSE.</p>
                     </div>
                 </div>
+                 <div class="flex items-start p-4 bg-cyan-50 rounded-lg border-l-4 border-cyan-500">
+                    <i data-lucide="truck" class="h-6 w-6 text-cyan-700 mr-4 mt-1 flex-shrink-0"></i>
+                    <div>
+                        <h5 class="font-bold text-cyan-800">Optimisation Logistique : Le Cas des Piles (Corepile)</h5>
+                        <p class="text-gray-700">Le suivi de la collecte des piles illustre notre démarche d'optimisation. En 2022, nous avons fait un enlèvement pour 3 bacs (88 kg), tandis qu'en 2023 nous avons optimisé le stockage pour un seul enlèvement avec un fût de plus grande capacité (82 kg). Cette consolidation explique l'absence d'enlèvement en 2024, ce qui représente un **gain carbone direct** lié à la réduction des transports du prestataire.</p>
+                    </div>
+                </div>
                 <div class="flex items-start p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
                     <i data-lucide="pie-chart" class="h-6 w-6 text-blue-700 mr-4 mt-1 flex-shrink-0"></i>
                     <div>
                         <h5 class="font-bold text-blue-800">Résultat Concret : La Chute Drastique des Déchets Ultimes</h5>
-                        <p class="text-gray-700">La conséquence directe de cette stratégie est la **chute de 58% des déchets non valorisables (DIB)** en 2024. C'est notre indicateur de performance le plus important. Le taux de valorisation global (part des déchets triés sur le total) a bondi, passant de **16% en 2023 à 46% en 2024**, une fois toutes les filières opérationnelles.</p>
+                        <p class="text-gray-700">La conséquence directe de ces stratégies est la **chute de 58% des déchets non valorisables (DIB)** en 2024. Le taux de valorisation global (part des déchets triés sur le total) a bondi, passant de **16% en 2023 à 46% en 2024**, une fois toutes les filières opérationnelles.</p>
                     </div>
                 </div>
-                <!-- NOUVELLE SECTION AJOUTÉE CI-DESSOUS -->
                 <div class="flex items-start p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
                     <i data-lucide="calendar-days" class="h-6 w-6 text-purple-700 mr-4 mt-1 flex-shrink-0"></i>
                     <div>
@@ -110,9 +116,12 @@
             papier: [0.1997, 0.3692, 0.3064],
             dib: [11.54, 19.06, 7.88],
             casseEuro: [6585.08, 1593.47, 2454.68],
-            d3ePam: [0.109, 0, 0.184],
-            d3eTubes: [0, 0.03, 0.02],
-            d3eLampes: [0, 0.056, 0.014],
+            d3e: [
+                (0.109 || 0), 
+                (0.03 || 0) + (0.056 || 0), 
+                (0.184 || 0) + (0.02 || 0) + (0.014 || 0)
+            ],
+            piles: [0.088, 0.082, 0],
         };
 
         const annotationPlugin = window['chartjs-plugin-annotation'];
@@ -165,10 +174,11 @@
                  yUnit: ' t'
             });
 
-            // Autres
+            // Autres Déchets
             createChart('autresChart', 'line', years, [
                 { label: 'Papier (t)', data: data.papier, borderColor: '#16a34a', backgroundColor: '#16a34a20', fill: true, tension: 0.1 },
-                { label: 'D3E (t)', data: data.d3ePam.map((v, i) => (v || 0) + (data.d3eTubes[i] || 0) + (data.d3eLampes[i] || 0)), borderColor: '#9333ea', backgroundColor: '#9333ea20', fill: true, tension: 0.1 }
+                { label: 'D3E (t)', data: data.d3e, borderColor: '#9333ea', backgroundColor: '#9333ea20', fill: true, tension: 0.1 },
+                { label: 'Piles (t)', data: data.piles, borderColor: '#f97316', backgroundColor: '#f9731620', fill: true, tension: 0.1 }
             ], {
                  plugins: {
                     annotation: {
