@@ -55,12 +55,12 @@
                     <canvas id="emballageChart"></canvas>
                 </div>
                 <div>
-                    <h3 class="text-lg font-semibold mb-4 text-center">Déchets non valorisables (Prestataire: Suez)</h3>
-                    <canvas id="dibChart"></canvas>
-                </div>
-                 <div>
                     <h3 class="text-lg font-semibold mb-4 text-center">Papiers & Déchets Spécifiques</h3>
                     <canvas id="autresChart"></canvas>
+                </div>
+                 <div>
+                    <h3 class="text-lg font-semibold mb-4 text-center">Déchets non valorisables (Prestataire: Suez)</h3>
+                    <canvas id="dibChart"></canvas>
                 </div>
                  <div>
                     <h3 class="text-lg font-semibold mb-4 text-center">Casse Jardin (Valorisation en €)</h3>
@@ -77,7 +77,7 @@
                     <i data-lucide="trending-up" class="h-6 w-6 text-green-700 mr-4 mt-1 flex-shrink-0"></i>
                     <div>
                         <h5 class="font-bold text-green-800">Succès : La Mise en Place de Filières de Tri Efficaces</h5>
-                        <p class="text-gray-700">Notre stratégie a consisté à mettre en place progressivement des filières de tri dédiées : **Papier (juillet 2022)**, puis **Carton/Plastique (fin 2023)**. La hausse de ces flux en 2024 n'est pas une augmentation de la production de déchets, mais le **succès du détournement de ces matières** qui finissaient auparavant en DIB. C'est une réussite majeure de notre démarche RSE.</p>
+                        <p class="text-gray-700">Notre stratégie a consisté à mettre en place progressivement des filières de tri dédiées : **Papier (juillet 2022)**, puis **Carton/Plastique (fin 2023)**. Les graphiques en barres montrent clairement l'impact de ces déploiements : une collecte faible la première année (partielle), puis une montée en charge l'année suivante. C'est le succès du détournement de ces matières qui finissaient auparavant en DIB.</p>
                     </div>
                 </div>
                  <div class="flex items-start p-4 bg-cyan-50 rounded-lg border-l-4 border-cyan-500">
@@ -116,11 +116,7 @@
             papier: [0.1997, 0.3692, 0.3064],
             dib: [11.54, 19.06, 7.88],
             casseEuro: [6585.08, 1593.47, 2454.68],
-            d3e: [
-                (0.109 || 0), 
-                (0.03 || 0) + (0.056 || 0), 
-                (0.184 || 0) + (0.02 || 0) + (0.014 || 0)
-            ],
+            d3e: [0.109, 0.086, 0.218], // Somme de PAM, Tubes, Lampes
             piles: [0.088, 0.082, 0],
         };
 
@@ -145,53 +141,53 @@
                             ticks: { callback: (value) => value.toLocaleString('fr-FR') + (extraOptions.yUnit || '') }
                         }
                     },
-                    spanGaps: true,
                     ...extraOptions.options,
                 }
             });
         }
         
         document.addEventListener('DOMContentLoaded', () => {
-            // Emballages
-            createChart('emballageChart', 'line', years, [
-                { label: 'Carton (t)', data: data.carton, borderColor: '#ca8a04', backgroundColor: '#ca8a0420', fill: true, tension: 0.1 },
-                { label: 'Plastique (t)', data: data.plastique, borderColor: '#2563eb', backgroundColor: '#2563eb20', fill: true, tension: 0.1 }
+            // Emballages (Bar chart)
+            createChart('emballageChart', 'bar', years, [
+                { label: 'Carton (t)', data: data.carton, backgroundColor: '#ca8a04' },
+                { label: 'Plastique (t)', data: data.plastique, backgroundColor: '#2563eb' }
             ], {
                 plugins: {
                     annotation: {
                         annotations: {
                             line1: { type: 'line', xMin: 1.5, xMax: 1.5, borderColor: 'rgba(0,0,0,0.5)', borderWidth: 2, borderDash: [6, 6],
-                                label: { content: 'Contrat Silve (fin 2023)', position: 'start', rotation: 90, yAdjust: 10, backgroundColor: 'rgba(255,255,255,0.7)' }
+                                label: { content: 'Contrat Silve (fin 2023)', enabled: true, position: 'start', yAdjust: -15, backgroundColor: 'rgba(255,255,255,0.7)' }
                             }
                         }
                     }
-                }
+                },
+                options: { scales: { x: { stacked: false }, y: { stacked: false } } }
             });
             
-            // DIB
+            // DIB (Bar chart)
             createChart('dibChart', 'bar', years, [{ label: 'DIB (tonnes)', data: data.dib, backgroundColor: '#dc2626' }], {
                  plugins: { legend: { display: false } },
                  yUnit: ' t'
             });
 
-            // Autres Déchets
-            createChart('autresChart', 'line', years, [
-                { label: 'Papier (t)', data: data.papier, borderColor: '#16a34a', backgroundColor: '#16a34a20', fill: true, tension: 0.1 },
-                { label: 'D3E (t)', data: data.d3e, borderColor: '#9333ea', backgroundColor: '#9333ea20', fill: true, tension: 0.1 },
-                { label: 'Piles (t)', data: data.piles, borderColor: '#f97316', backgroundColor: '#f9731620', fill: true, tension: 0.1 }
+            // Autres Déchets (Bar chart)
+            createChart('autresChart', 'bar', years, [
+                { label: 'Papier (t)', data: data.papier, backgroundColor: '#16a34a' },
+                { label: 'D3E (t)', data: data.d3e, backgroundColor: '#9333ea' },
+                { label: 'Piles (t)', data: data.piles, backgroundColor: '#f97316' }
             ], {
                  plugins: {
                     annotation: {
                         annotations: {
                             line1: { type: 'line', xMin: 0.5, xMax: 0.5, borderColor: 'rgba(0,0,0,0.5)', borderWidth: 2, borderDash: [6, 6],
-                                label: { content: 'Contrat Recygo (Juil. 22)', position: 'start', rotation: 90, yAdjust: 10, backgroundColor: 'rgba(255,255,255,0.7)' }
+                                label: { content: 'Contrat Recygo (Juil. 22)', enabled: true, position: 'start', yAdjust: -15, backgroundColor: 'rgba(255,255,255,0.7)' }
                             }
                         }
                     }
                 }
             });
             
-            // Casse Jardin
+            // Casse Jardin (Bar chart)
             createChart('casseJardinChart', 'bar', years, [{ label: 'Casse Jardin (€)', data: data.casseEuro, backgroundColor: '#db2777' }], {
                 plugins: { legend: { display: false } },
                 yUnit: ' €'
