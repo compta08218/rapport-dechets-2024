@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport RSE - Analyse des Déchets 2022-2024</title>
+    <!-- Inclure Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inclure la bibliothèque de graphiques Chart.js et le plugin d'annotations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@latest"></script>
+    <!-- Inclure la bibliothèque d'icônes Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-100">
+
+    <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+        <!-- En-tête -->
+        <header class="bg-white p-8 rounded-xl shadow-md mb-8">
+            <div class="flex items-center justify-center mb-4">
+                <i data-lucide="recycle" class="h-10 w-10 text-green-600 mr-4"></i>
+                <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 text-center">Analyse de la Gestion des Déchets</h1>
+            </div>
+            <p class="text-center text-xl text-gray-600">Période d'analyse : 2022 - 2024</p>
+        </header>
+
+        <!-- Indicateurs Clés (KPIs) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                <i data-lucide="trash-2" class="h-8 w-8 text-green-600 mx-auto mb-3"></i>
+                <h3 class="text-sm font-semibold text-gray-600 mb-2 uppercase">Déchets non valorisables (DIB) 2024</h3>
+                <p class="text-3xl font-bold text-green-700">7,88 <span class="text-xl">tonnes</span></p>
+                <p class="text-sm font-semibold text-green-600">Baisse de 58% vs 2023</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                <i data-lucide="award" class="h-8 w-8 text-blue-500 mx-auto mb-3"></i>
+                <h3 class="text-sm font-semibold text-gray-600 mb-2 uppercase">Part des Déchets Valorises en 2024</h3>
+                <p class="text-3xl font-bold text-blue-600">46 %</p>
+                <p class="text-sm text-gray-500">(vs 16% en 2023)</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                <i data-lucide="flower-2" class="h-8 w-8 text-pink-500 mx-auto mb-3"></i>
+                <h3 class="text-sm font-semibold text-gray-600 mb-2 uppercase">Valorisation Casse Jardin 2024</h3>
+                <p class="text-3xl font-bold text-pink-600">2 455 €</p>
+                <p class="text-sm font-semibold text-green-600">Réduction de 63% vs 2022</p>
+            </div>
+        </section>
+
+        <!-- Section Graphiques d'Évolution -->
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Évolution des principaux flux de déchets (en tonnes)</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-center">Déchets d'emballage (Prestataire: Silve)</h3>
+                    <canvas id="emballageChart"></canvas>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-center">Déchets non valorisables (Prestataire: Suez)</h3>
+                    <canvas id="dibChart"></canvas>
+                </div>
+                 <div>
+                    <h3 class="text-lg font-semibold mb-4 text-center">Papiers & Déchets Électriques (D3E)</h3>
+                    <canvas id="autresChart"></canvas>
+                </div>
+                 <div>
+                    <h3 class="text-lg font-semibold mb-4 text-center">Casse Jardin (Valorisation en €)</h3>
+                    <canvas id="casseJardinChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Synthèse & Recommandations -->
+        <div class="bg-white p-6 rounded-xl shadow-md">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Analyse Stratégique & Recommandations</h2>
+            <div class="space-y-4">
+                <div class="flex items-start p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                    <i data-lucide="trending-up" class="h-6 w-6 text-green-700 mr-4 mt-1 flex-shrink-0"></i>
+                    <div>
+                        <h5 class="font-bold text-green-800">Succès : La Mise en Place de Filières de Tri Efficaces</h5>
+                        <p class="text-gray-700">Notre stratégie a consisté à mettre en place progressivement des filières de tri dédiées : **Papier (juillet 2022)**, puis **Carton/Plastique (fin 2023)**. La hausse de ces flux en 2024 n'est pas une augmentation de la production de déchets, mais le **succès du détournement de ces matières** qui finissaient auparavant en DIB. C'est une réussite majeure de notre démarche RSE.</p>
+                    </div>
+                </div>
+                <div class="flex items-start p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                    <i data-lucide="pie-chart" class="h-6 w-6 text-blue-700 mr-4 mt-1 flex-shrink-0"></i>
+                    <div>
+                        <h5 class="font-bold text-blue-800">Résultat Concret : La Chute Drastique des Déchets Ultimes</h5>
+                        <p class="text-gray-700">La conséquence directe de cette stratégie est la **chute de 58% des déchets non valorisables (DIB)** en 2024. C'est notre indicateur de performance le plus important. Le taux de valorisation global (part des déchets triés sur le total) a bondi, passant de **16% en 2023 à 46% en 2024**, une fois toutes les filières opérationnelles.</p>
+                    </div>
+                </div>
+                <div class="flex items-start p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
+                    <i data-lucide="target" class="h-6 w-6 text-yellow-700 mr-4 mt-1 flex-shrink-0"></i>
+                    <div>
+                        <h5 class="font-bold text-yellow-800">Recommandations & Prochaines Étapes</h5>
+                        <p class="text-gray-700">1. **Consolider le tri :** Maintenant que les filières sont en place, l'objectif est de maintenir et d'améliorer les performances de tri pour réduire encore la part de DIB. <br> 2. **Réduction à la source :** Engager des discussions avec nos fournisseurs (via Silve) pour explorer des solutions de réduction des emballages (livraisons en vrac, emballages consignés, etc.).<br> 3. **Suivi de la Casse :** La gestion de la casse jardin, bien qu'améliorée depuis 2022, reste un point de vigilance et un levier d'optimisation économique.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        const years = ['2022', '2023', '2024'];
+        const data = {
+            carton: [null, 1.941, 5.363],
+            plastique: [null, 0.792, 1.109],
+            papier: [0.1997, 0.3692, 0.3064],
+            dib: [11.54, 19.06, 7.88],
+            casseEuro: [6585.08, 1593.47, 2454.68],
+            d3ePam: [0.109, 0, 0.184],
+            d3eTubes: [0, 0.03, 0.02],
+            d3eLampes: [0, 0.056, 0.014],
+        };
+
+        const annotationPlugin = window['chartjs-plugin-annotation'];
+        Chart.register(annotationPlugin);
+
+        function createChart(canvasId, type, labels, datasets, extraOptions = {}) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: type,
+                data: { labels, datasets },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: { mode: 'index', intersect: false },
+                        ...extraOptions.plugins,
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            ticks: { callback: (value) => value.toLocaleString('fr-FR') + (extraOptions.yUnit || '') }
+                        }
+                    },
+                    spanGaps: true,
+                    ...extraOptions.options,
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Emballages
+            createChart('emballageChart', 'line', years, [
+                { label: 'Carton (t)', data: data.carton, borderColor: '#ca8a04', backgroundColor: '#ca8a0420', fill: true, tension: 0.1 },
+                { label: 'Plastique (t)', data: data.plastique, borderColor: '#2563eb', backgroundColor: '#2563eb20', fill: true, tension: 0.1 }
+            ], {
+                plugins: {
+                    annotation: {
+                        annotations: {
+                            line1: { type: 'line', xMin: 1.5, xMax: 1.5, borderColor: 'rgba(0,0,0,0.5)', borderWidth: 2, borderDash: [6, 6],
+                                label: { content: 'Contrat Silve (fin 2023)', position: 'start', rotation: 90, yAdjust: 10, backgroundColor: 'rgba(255,255,255,0.7)' }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // DIB
+            createChart('dibChart', 'bar', years, [{ label: 'DIB (tonnes)', data: data.dib, backgroundColor: '#dc2626' }], {
+                 plugins: { legend: { display: false } },
+                 yUnit: ' t'
+            });
+
+            // Autres
+            createChart('autresChart', 'line', years, [
+                { label: 'Papier (t)', data: data.papier, borderColor: '#16a34a', backgroundColor: '#16a34a20', fill: true, tension: 0.1 },
+                { label: 'D3E (t)', data: data.d3ePam.map((v, i) => (v || 0) + (data.d3eTubes[i] || 0) + (data.d3eLampes[i] || 0)), borderColor: '#9333ea', backgroundColor: '#9333ea20', fill: true, tension: 0.1 }
+            ], {
+                 plugins: {
+                    annotation: {
+                        annotations: {
+                            line1: { type: 'line', xMin: 0.5, xMax: 0.5, borderColor: 'rgba(0,0,0,0.5)', borderWidth: 2, borderDash: [6, 6],
+                                label: { content: 'Contrat Recygo (Juil. 22)', position: 'start', rotation: 90, yAdjust: 10, backgroundColor: 'rgba(255,255,255,0.7)' }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Casse Jardin
+            createChart('casseJardinChart', 'bar', years, [{ label: 'Casse Jardin (€)', data: data.casseEuro, backgroundColor: '#db2777' }], {
+                plugins: { legend: { display: false } },
+                yUnit: ' €'
+            });
+        });
+    </script>
+</body>
+</html>
